@@ -1,34 +1,33 @@
-<!DOCTYPE html>
-<html lang="de"><head><meta charset="utf-8">
+<!DOCTYPE html><html lang="de"><head><title>Projekte – Godswill Adele Loveday</title><meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Projekte – Godswill Adele Loveday</title>
-<meta name="description" content="Portfolio & Lebenslauf von Godswill Adele Loveday.">
-<link rel="icon" href="assets/profile.jpg">
-<link rel="stylesheet" href="styles.css"></head><body>
-<header class="topbar">
+<link rel="stylesheet" href="styles.css">
+<script defer src="main.js"></script></head>
+<body data-page="projects"><header class="topbar">
   <div class="container topbar__inner">
     <a class="brand" href="index.html">Godswill Adele Loveday</a>
-    <nav class="nav"><a class="nav__link " href="index.html">Start</a><a class="nav__link " href="about.html">Über mich</a><a class="nav__link " href="skills.html">Skills</a><a class="nav__link " href="timeline.html">Zeitleiste</a><a class="nav__link is-active" href="projects.html">Projekte</a><a class="nav__link " href="education.html">Ausbildung</a><a class="nav__link " href="powerbi.html">Power BI Fähigkeiten</a>
-<a class="nav__link " href="contact.html">Kontakt</a></nav>
+    <nav class="nav" id="mainNav">
+      <a class="nav__link" href="index.html">Start</a>
+      <a class="nav__link" href="about.html">Über mich</a>
+      <a class="nav__link" href="skills.html">Skills</a>
+      <a class="nav__link" href="timeline.html">Zeitleiste</a>
+      <a class="nav__link" href="projects.html">Projekte</a>
+      <a class="nav__link" href="powerbi.html">Power BI Fähigkeiten</a>
+      <a class="nav__link" href="contact.html">Kontakt</a>
+    </nav>
+    <button class="mode-toggle" id="modeToggle" title="Dark/Light">🌓</button>
   </div>
-</header>
-<main class="container">
-  
-<section class="section" id="projects" data-items='[{"year": "2025", "title": "SEP Drive – Webplattform für Fahrgemeinschaften", "desc": "Uni-Projekt: Seriöse Webanwendung zum Buchen und Anbieten von Fahrten für Studierende. Backend mit REST-API; Nutzer-, Fahrt- und Buchungsverwaltung.", "tags": ["rest api", "java", "spring", "sql", "web"]}, {"year": "2025", "title": "EmployerConnect – Arbeitgebermanagement (mit KI-Backend)", "desc": "Eigenständig aufgesetztes System mit KI-Integration im Backend: Rollen, Verfügbarkeiten & Arbeitspläne, Messaging; Ziel: effizientere Prozesse zwischen Arbeitgebern und Mitarbeitenden.", "tags": ["rest api", "java", "spring", "postgres", "ki"]}, {"year": "2025", "title": "Mentor Jonas – Digitalisierungsprojekt", "desc": "Prozessdigitalisierung für Online-Nachhilfe: DB-gestützte Verwaltung von Schülern, Terminen, Themen & Fortschritt; einheitliche Übersichten & Auswertungen.", "tags": ["sql", "prozess", "dashboard", "management"]}]'>
-  <h1 class="section__title">Projekte</h1>
-  <div class="controls">
-    <input id="search" class="input" placeholder="Suche (Titel/Beschreibung)">
-    <div class="chips" id="chips"></div>
-  </div>
-  <div class="projects" id="list"></div>
-</section>
-
-</main>
-<footer class="footer">
+</header><main class="container"><section class="section">
+<h1 class="section__title">Projekte</h1>
+<div class="chipbar" id="chipbar"><button class="chip is-active" data-chip="">Alle</button><button class="chip" data-chip="dashboard">dashboard</button><button class="chip" data-chip="java">java</button><button class="chip" data-chip="ki">ki</button><button class="chip" data-chip="management">management</button><button class="chip" data-chip="postgres">postgres</button><button class="chip" data-chip="prozess">prozess</button><button class="chip" data-chip="rest api">rest api</button><button class="chip" data-chip="spring">spring</button><button class="chip" data-chip="sql">sql</button><button class="chip" data-chip="web">web</button></div>
+<div class="filterbar"><input id="projSearch" type="search" placeholder="Suche (Titel/Beschreibung)…"></div>
+<div class="cards" id="projList">
+<article class="card proj" data-tags="rest api, java, spring, sql, web, dashboard"><h3>SEP Drive – Webplattform für Fahrgemeinschaften (2025)</h3><p>Uni-Projekt: Seriöse Webanwendung zum Buchen/Anbieten von Fahrten für Studierende. Backend mit REST‑API; Nutzer‑, Fahrt‑ & Buchungsverwaltung.</p><div class="tags"><span>rest api</span><span>java</span><span>spring</span><span>sql</span><span>web</span></div></article>
+<article class="card proj" data-tags="rest api, java, spring, postgres, ki, management, dashboard"><h3>EmployerConnect – Arbeitgebendenmanagement (mit KI‑Backend) (2025)</h3><p>Eigenständig aufgesetztes System mit KI‑Integration im Backend: Rollen, Verfügbarkeiten & Arbeitspläne, Messaging; Ziel: effizientere Prozesse zwischen Arbeitgebenden und Mitarbeitenden.</p><div class="tags"><span>rest api</span><span>java</span><span>spring</span><span>postgres</span><span>ki</span></div></article>
+<article class="card proj" data-tags="sql, prozess, dashboard, management"><h3>Mentor Jonas – Digitalisierungsprojekt (2025)</h3><p>Prozessdigitalisierung für Online‑Nachhilfe: DB‑gestützte Verwaltung von Schülern, Terminen, Themen & Fortschritt; einheitliche Übersichten & Auswertungen.</p><div class="tags"><span>sql</span><span>prozess</span><span>dashboard</span><span>management</span></div></article>
+<article class="card proj" data-tags="web, ui, darkmode, git, ki"><h3>Diese Webseite – Interaktiver Lebenslauf (2025)</h3><p>Konzeption & Umsetzung mit <strong>KI‑Unterstützung</strong>, Git‑Workflows, Bugfixing und konsistentem Styling (Dark/Light, Animationen).</p><div class="tags"><span>web</span><span>git</span><span>ki</span><span>darkmode</span></div></article>
+</div></section></main><footer class="footer">
   <div class="container footer__inner">
-    <small>© <span id="year"></span> Godswill Adele Loveday · Keine Cookies · Kein Tracking</small>
+    © <span id="year"></span> Godswill Adele Loveday · Keine Cookies · Kein Tracking
   </div>
-  <script>document.getElementById('year').textContent = new Date().getFullYear();</script>
-  <script src="main.js"></script>
-</footer>
-</body></html>
+  <script>document.getElementById('year').textContent=new Date().getFullYear();</script>
+</footer></body></html>

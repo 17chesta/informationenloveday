@@ -1,38 +1,33 @@
-
-document.querySelectorAll('.timeline details').forEach(d => {
-  d.addEventListener('mouseenter', () => d.setAttribute('open',''));
-  d.addEventListener('mouseleave', () => d.removeAttribute('open'));
-});
 (function(){
-  const container = document.getElementById('projects');
-  if(!container) return;
-  const items = JSON.parse(container.dataset.items);
-  const list = document.getElementById('list');
-  const chips = document.getElementById('chips');
-  const search = document.getElementById('search');
-  const allTags = Array.from(new Set(items.flatMap(i=>i.tags))).sort();
-  let activeTag = null;
-  function render(){
-    const q = (search.value || '').toLowerCase().trim();
-    list.innerHTML = '';
-    items
-      .filter(i => !activeTag || i.tags.includes(activeTag))
-      .filter(i => !q || i.title.toLowerCase().includes(q) || i.desc.toLowerCase().includes(q))
-      .forEach(i => {
-        const el = document.createElement('article');
-        el.className = 'card project';
-        el.innerHTML = `<div class="project__meta">${i.year}</div>
-                        <div><strong>${i.title}</strong>
-                        <div class="lead">${i.desc}</div>
-                        <div style="margin-top:6px" class="chips">${i.tags.map(t=>`<span class='chip'>${t}</span>`).join(' ')}</div></div>`;
-        list.appendChild(el);
-      });
+  const page=document.body.dataset.page;
+  document.querySelectorAll('.nav__link').forEach(a=>{const href=a.getAttribute('href'); if(href && href.startsWith(page)) a.classList.add('is-active');});
+  const root=document.documentElement, saved=localStorage.getItem('theme'); if(saved==='dark') root.classList.add('dark');
+  document.getElementById('modeToggle').addEventListener('click',()=>{root.classList.toggle('dark');localStorage.setItem('theme',root.classList.contains('dark')?'dark':'light');});
+  document.querySelectorAll('.card--flip').forEach(card=>card.addEventListener('click',()=>card.classList.toggle('is-flipped')));
+  const modal=document.getElementById('skillModal');
+  if(modal){
+    const title=document.getElementById('modalTitle'), desc=document.getElementById('modalDesc'), src=document.getElementById('modalSrc');
+    const closeBtn=document.getElementById('modalClose'); const close=()=>{modal.style.display='none'; modal.setAttribute('aria-hidden','true');};
+    document.querySelectorAll('.skill-card').forEach(btn=>btn.addEventListener('click',()=>{title.textContent=btn.dataset.title;desc.textContent=btn.dataset.desc;src.textContent=btn.dataset.src||'—';modal.style.display='flex';modal.setAttribute('aria-hidden','false');}));
+    closeBtn&&closeBtn.addEventListener('click',close); modal.addEventListener('click',(e)=>{if(e.target===modal) close();});
   }
-  function renderChips(){
-    chips.innerHTML = `<span class="chip${(!activeTag?' is-active':'')}" data-tag="">Alle</span>` +
-      allTags.map(t => `<span class="chip${(activeTag===t?' is-active':'')}" data-tag="${t}">${t}</span>`).join('');
+  document.querySelectorAll('.timeline .tl-item').forEach(it=>it.addEventListener('click',()=>it.classList.toggle('is-open')));
+  const input=document.getElementById('projSearch'), chips=[...document.querySelectorAll('.chip')], cards=[...document.querySelectorAll('.proj')];
+  function apply(){
+    const q=(input&&input.value||'').toLowerCase().trim();
+    const active=(chips.find(c=>c.classList.contains('is-active'))||{}).dataset?.chip || '';
+    cards.forEach(c=>{
+      const text=(c.textContent+' '+(c.dataset.tags||'')).toLowerCase();
+      const okText= q? text.includes(q): true;
+      const okChip= active? text.includes(active): true;
+      c.style.display = (okText && okChip) ? '' : 'none';
+    });
   }
-  chips.addEventListener('click', e => { const tag = e.target.dataset.tag; if(tag===undefined) return; activeTag = tag || null; renderChips(); render(); });
-  search.addEventListener('input', render);
-  renderChips(); render();
+  chips.forEach(ch=>ch.addEventListener('click',()=>{chips.forEach(x=>x.classList.remove('is-active')); ch.classList.add('is-active'); apply();}));
+  input&&input.addEventListener('input',apply);
+  const excel=document.getElementById('pbi-excel'), visual=document.getElementById('pbi-visual');
+  const rawBtn=document.getElementById('btn-raw'), vizBtn=document.getElementById('btn-viz');
+  function setRaw(){ if(!excel) return; visual.style.opacity='0'; excel.style.opacity='1'; rawBtn&&rawBtn.classList.add('is-active'); vizBtn&&vizBtn.classList.remove('is-active');}
+  function setViz(){ if(!excel) return; excel.style.opacity='0'; visual.style.opacity='1'; vizBtn&&vizBtn.classList.add('is-active'); rawBtn&&rawBtn.classList.remove('is-active');}
+  rawBtn&&rawBtn.addEventListener('click',setRaw); vizBtn&&vizBtn.addEventListener('click',setViz);
 })();

@@ -1,45 +1,29 @@
-<!DOCTYPE html><html lang="de"><head>
-<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Power BI Fähigkeiten – Godswill Adele Loveday</title>
+<!DOCTYPE html><html lang="de"><head><title>Power BI Fähigkeiten – Godswill Adele Loveday</title><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="styles.css">
-</head><body>
-<header class="topbar">
+<script defer src="main.js"></script></head>
+<body data-page="powerbi"><header class="topbar">
   <div class="container topbar__inner">
     <a class="brand" href="index.html">Godswill Adele Loveday</a>
-    <nav class="nav"><a class="nav__link is-active" href="index.html">Start</a><a class="nav__link " href="about.html">Über mich</a><a class="nav__link " href="skills.html">Skills</a><a class="nav__link " href="timeline.html">Zeitleiste</a><a class="nav__link " href="projects.html">Projekte</a><a class="nav__link " href="education.html">Ausbildung</a><a class="nav__link " href="powerbi.html">Power BI Fähigkeiten</a>
-<a class="nav__link " href="contact.html">Kontakt</a></nav>
+    <nav class="nav" id="mainNav">
+      <a class="nav__link" href="index.html">Start</a>
+      <a class="nav__link" href="about.html">Über mich</a>
+      <a class="nav__link" href="skills.html">Skills</a>
+      <a class="nav__link" href="timeline.html">Zeitleiste</a>
+      <a class="nav__link" href="projects.html">Projekte</a>
+      <a class="nav__link" href="powerbi.html">Power BI Fähigkeiten</a>
+      <a class="nav__link" href="contact.html">Kontakt</a>
+    </nav>
+    <button class="mode-toggle" id="modeToggle" title="Dark/Light">🌓</button>
   </div>
-</header>
-
-<main class="container">
-  <section class="section">
-    <article class="card">
-      <h1 class="section__title">Power BI Fähigkeiten</h1>
-      <p class="lead">Wir haben viele Daten – und möchten diese visualisieren. Unten siehst du zuerst die Rohdaten (Excel-Screenshot). Mit dem Schalter wechselst du zur visualisierten Ansicht.</p>
-      
-      <div class="pbi-stage">
-        <div class="pbi-frame">
-          <img id="pbi-excel" src="assets/images/excel_screenshot.webp" alt="Rohdaten (Excel)" />
-          <img id="pbi-visual" src="assets/images/powerbi_screenshot.webp" alt="Power BI Visualisierung" />
-        </div>
-        <div class="pbi-controls">
-          <button id="btn-raw" class="btn btn--ghost">Rohdaten</button>
-          <button id="btn-viz" class="btn">Visualisieren</button>
-        </div>
-      </div>
-      
-      <div class="pbi-notice lead">Lege deine zwei Bilder unter <code>assets/images/</code> ab: <code>excel_screenshot.webp</code> und <code>powerbi_screenshot.webp</code>.</div>
-    </article>
-  </section>
-</main>
-
-<footer class="footer">
+</header><main class="container"><section class="section">
+<h1 class="section__title">Power BI Fähigkeiten</h1>
+<p class="lead">Wir haben viele Daten – und möchten diese visualisieren. Unten kannst du zwischen <strong>Rohdaten</strong> und <strong>Visualisierung</strong> wechseln.</p>
+<div class="pbi-controls pbi-controls--top"><button id="btn-raw" class="btn btn--xl btn--ghost is-active">Rohdaten</button><button id="btn-viz" class="btn btn--xl">Visualisieren</button></div>
+<div class="pbi-stage"><div class="pbi-frame"><img id="pbi-excel" src="assets/images/excel_screenshot.webp" alt="Rohdaten (Excel)"><img id="pbi-visual" src="assets/images/powerbi_screenshot.webp" alt="Power BI Visualisierung"></div></div>
+</section></main><footer class="footer">
   <div class="container footer__inner">
-    <small>© <span id="year"></span> Godswill Adele Loveday · Keine Cookies · Kein Tracking</small>
+    © <span id="year"></span> Godswill Adele Loveday · Keine Cookies · Kein Tracking
   </div>
-  <script>document.getElementById('year').textContent = new Date().getFullYear();</script>
-  <script src="main.js"></script>
-</footer>
-<script src="main.js"></script>
-<script src="powerbi.js"></script>
-</body></html>
+  <script>document.getElementById('year').textContent=new Date().getFullYear();</script>
+</footer></body></html>
