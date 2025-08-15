@@ -1,0 +1,131 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Projekt-Zeitleiste</title>
+
+  <!-- Vis Timeline (CDN) -->
+  <link rel="stylesheet" href="https://unpkg.com/vis-timeline@7.7.2/styles/vis-timeline-graph2d.min.css">
+  <script src="https://unpkg.com/vis-data@7.1.6/peer/umd/vis-data.min.js"></script>
+  <script src="https://unpkg.com/vis-timeline@7.7.2/peer/umd/vis-timeline-graph2d.min.js"></script>
+
+  <style>
+    :root{
+      --bg:#0b0f14;          /* dunkles Canvas */
+      --card:#131a22;        /* Kartenhintergrund */
+      --text:#e8eef6;
+      --muted:#a5b0bf;
+
+      /* Farben für Kategorien */
+      --phase:#2e7d32;       /* grün */
+      --dev:#1976d2;         /* blau */
+      --qa:#8e24aa;          /* violett */
+      --en:#ef6c00;          /* orange */
+      --ms:#d32f2f;          /* rot (Meilensteine) */
+    }
+    html,body{margin:0;background:var(--bg);color:var(--text);font-family:system-ui,-apple-system,Segoe UI,Roboto,Inter,Arial}
+    header{
+      padding:20px 16px 8px;
+      max-width:1100px;margin:0 auto;
+    }
+    header h1{margin:0 0 6px;font-size:22px;font-weight:700}
+    header p{margin:0;color:var(--muted);font-size:14px}
+    .wrap{max-width:1100px;margin:10px auto 28px;padding:0 16px}
+    #timeline{background:var(--card);border-radius:12px;border:1px solid rgba(255,255,255,.06);height:520px}
+    /* Gruppen-Header schöner */
+    .vis-group .vis-label{color:var(--muted);font-weight:600}
+    /* Balken-Styles je Klasse */
+    .item-phase{background:color-mix(in srgb, var(--phase) 28%, transparent);border-color:var(--phase)}
+    .item-dev  {background:color-mix(in srgb, var(--dev)   28%, transparent);border-color:var(--dev)}
+    .item-qa   {background:color-mix(in srgb, var(--qa)    28%, transparent);border-color:var(--qa)}
+    .item-en   {background:color-mix(in srgb, var(--en)    28%, transparent);border-color:var(--en)}
+    .item-ms   {
+      background:var(--ms); border-color:var(--ms); color:white;
+      border-radius:999px; padding:4px 10px; font-weight:700
+    }
+    /* Tooltip-Schrift lesbarer */
+    .vis-tooltip{background:#0f141b!important;color:#eaf1fb!important;border-color:#223042!important}
+    /* Zoom-Hinweis */
+    .hint{margin:10px 0 0;color:var(--muted);font-size:12px}
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Projekt-Zeitleiste – „Mitarbeiter‑App Einführung“</h1>
+    <p>Phasen, Meilensteine, Umsetzung (Dev/QA) und Enablement – kompakt in einer Timeline. Scroll zum Zoomen, Drag zum Verschieben.</p>
+  </header>
+
+  <div class="wrap">
+    <div id="timeline"></div>
+    <p class="hint">Tipp: Halte <b>Shift</b> gedrückt und scrolle, um horizontal zu zoomen. Klick auf Elemente für Details.</p>
+  </div>
+
+  <script>
+    const groups = new vis.DataSet([
+      { id: 1, content: "Phasen" },
+      { id: 2, content: "Umsetzung (Dev)" },
+      { id: 3, content: "Qualität (QA/Tests)" },
+      { id: 4, content: "Enablement" },
+      { id: 5, content: "Meilensteine" }
+    ]);
+
+    const items = new vis.DataSet([
+      { id: 101, group: 1, className: "item-phase", content: "Initiierung", start: "2025-08-01", end: "2025-08-05",
+        title: "Kick-off, Ziele, Stakeholder-Analyse" },
+      { id: 102, group: 1, className: "item-phase", content: "Planung",    start: "2025-08-06", end: "2025-08-15",
+        title: "Projektplan, Risikoanalyse, Ressourcen" },
+      { id: 103, group: 1, className: "item-phase", content: "Umsetzung",  start: "2025-08-16", end: "2025-09-22",
+        title: "Entwicklung, Tests, Bugfixing, Integration" },
+      { id: 104, group: 1, className: "item-phase", content: "Abschluss",  start: "2025-09-23", end: "2025-09-30",
+        title: "Abnahme, Lessons Learned, Abschlussbericht" },
+
+      { id: 201, group: 2, className: "item-dev", content: "Registrierung (Frontend/UI)", start: "2025-08-12", end: "2025-08-20",
+        title: "Validierung: Name, E‑Mail, Passwort – Priorität: Hoch • Labels: Frontend, UI" },
+      { id: 202, group: 2, className: "item-dev", content: "Login (Auth/Backend)", start: "2025-08-14", end: "2025-08-22",
+        title: "Passwort-Hashing, Session-Handling – Priorität: Hoch • Labels: Backend, Authentifizierung" },
+      { id: 203, group: 2, className: "item-dev", content: "Dashboard-Layout", start: "2025-08-18", end: "2025-08-25",
+        title: "Responsives UI – Priorität: Mittel • Labels: Frontend, Design" },
+      { id: 204, group: 2, className: "item-dev", content: "E-Mail-Benachrichtigungen", start: "2025-08-16", end: "2025-08-18",
+        title: "SMTP/API-Integration – Priorität: Mittel • Labels: Backend, Kommunikation" },
+
+      { id: 301, group: 3, className: "item-qa", content: "Performance-Test", start: "2025-08-19", end: "2025-08-21",
+        title: "Last-/Stresstest – Priorität: Mittel • Labels: Testing, QA" },
+      { id: 302, group: 3, className: "item-qa", content: "Bugfix – Formularvalidierung", start: "2025-08-15", end: "2025-08-15",
+        title: "Fehleingaben korrekt abfangen – Priorität: Hoch • Labels: Frontend, Bugfix" },
+
+      { id: 401, group: 4, className: "item-en", content: "API-Dokumentation", start: "2025-08-10", end: "2025-08-12",
+        title: "Swagger/OpenAPI aktualisieren – Priorität: Niedrig • Labels: Dokumentation, Backend" },
+      { id: 402, group: 4, className: "item-en", content: "Stakeholder-Schulung", start: "2025-09-23", end: "2025-09-24",
+        title: "Admin/Key-User Training, Handouts" },
+
+      { id: 501, group: 5, className: "item-ms", content: "M1: Projektstart", start: "2025-08-01",
+        type: "point", title: "Kick-off abgeschlossen" },
+      { id: 502, group: 5, className: "item-ms", content: "M2: Planung fertig", start: "2025-08-15",
+        type: "point", title: "Planung abgenommen" },
+      { id: 503, group: 5, className: "item-ms", content: "M3: Go‑Live", start: "2025-09-22",
+        type: "point", title: "Produktivsetzung" },
+      { id: 504, group: 5, className: "item-ms", content: "M4: Abschluss", start: "2025-09-30",
+        type: "point", title: "Projektabschluss & Lessons Learned" }
+    ]);
+
+    const options = {
+      stack: true,
+      selectable: true,
+      multiselect: false,
+      zoomKey: "shiftKey",
+      orientation: { axis: "both", item: "top" },
+      margin: { item: 8, axis: 12 },
+      tooltip: { followMouse: true, overflowMethod: "cap" },
+      timeAxis: { scale: "day", step: 1 },
+      min: "2025-07-25",
+      max: "2025-10-05",
+      start: "2025-08-05",
+      end: "2025-09-28"
+    };
+
+    const container = document.getElementById("timeline");
+    new vis.Timeline(container, items, groups, options);
+  </script>
+</body>
+</html>

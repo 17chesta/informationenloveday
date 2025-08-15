@@ -1,67 +1,75 @@
 <!DOCTYPE html>
-<html lang="de">
-<head><title>Start – Godswill Adele Loveday</title><meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" href="styles.css?v=v15">
-<script defer src="main.js?v=v15"></script></head>
+<html lang="de" data-theme="light">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Start – Godswill Adele Loveday</title>
+  <link rel="stylesheet" href="index_dizer.css">
+  <script defer src="main.js"></script>
+</head>
 <body data-page="index">
 <header class="topbar">
   <div class="container topbar__inner">
     <a class="brand" href="index.html">Godswill Adele Loveday</a>
     <nav class="nav" id="mainNav">
-      <a class="nav__link" href="index.html">Start</a>
+      <a class="nav__link is-active" href="index.html">Start</a>
       <a class="nav__link" href="about.html">Über mich</a>
       <a class="nav__link" href="skills.html">Skills</a>
       <a class="nav__link" href="timeline.html">Zeitleiste</a>
-      <a class="nav__link" href="projects.html">Projekte</a>
-      <a class="nav__link" href="powerbi.html">Power BI Fähigkeiten</a>
+      <a class="nav__link" href="projektmanagement.html">Projekte</a>
+      <a class="nav__link" href="projektmanagement.html">Projektmanagement</a>
       <a class="nav__link" href="contact.html">Kontakt</a>
     </nav>
     <button class="mode-toggle" id="modeToggle" title="Dark/Light">🌓</button>
   </div>
 </header>
-<main class="container">
+
+<main>
+  <!-- HERO -->
   <section class="hero">
-    <div class="hero__pic"></div>
-    <div>
-      <h1 class="name">Godswill Adele Loveday</h1>
-      <p class="lead">Wirtschaftsinformatik · KI · Prozessautomatisierung · <strong>Projektmanagement (KI, Java, Power BI)</strong></p>
-      <p class="hint">Tipp: Viele Elemente sind interaktiv – <strong>Hover</strong> am Desktop oder <strong>Tippen</strong> am Handy.</p>
+    <div class="container hero__inner">
+      <div class="hero__copy">
+        <p class="eyebrow">MY NAME IS GODSWILL</p>
+        <h1>Ich bin Wirtschaftsinformatik‑Student, pragmatischer <span>IT‑Projektmanager</span> &amp; <span>Java‑Developer</span>.</h1>
+        <p class="lead">Ich plane, baue und messe – von der Roadmap bis zum KPI‑Dashboard. Schwerpunkt: REST‑APIs, Jira/Kanban &amp; Power BI.</p>
+        <div class="cta">
+          <a class="btn btn--primary" href="projektmanagement.html">Kontakt aufnehmen</a>
+          <a class="btn btn--ghost" href="projektmanagement.html">Projektmanagement‑Demo</a>
+        </div>
+      </div>
+      <div class="hero__media">
+        <img src="assets/profile.jpg" alt="Profilfoto" />
+      </div>
     </div>
   </section>
-  <section class="section flip-stack">
-    <article class="card card--flip card--accent">
-      <div class="card__face card__face--front"><h2 class="section__title">Kurzprofil</h2><span class="eyebrow">Das bin ich.</span></div>
-      <div class="card__face card__face--back">
-        <h2 class="section__title">Kurzprofil</h2>
-        <p>Technisch versierter Student der Wirtschaftsinformatik mit starkem Interesse an <strong>Künstlicher Intelligenz</strong> und deren wirtschaftlicher Anwendung. Eigenständige Einarbeitung in KI-Themen (Prompt-Design, Automatisierung, leichte Backend-Integrationen) kombiniert mit <strong>Prozessautomatisierung</strong> und <strong>Datenanalyse</strong>.</p>
-        <p>Praxis in Projektarbeit, Kommunikation (B2B) und System-/Datendenken.</p>
-      </div>
-    </article>
-    <article class="card card--flip card--accent2">
-      <div class="card__face card__face--front"><h2 class="section__title">Ausrichtung</h2><span class="eyebrow">Darauf will ich mich fokussieren.</span></div>
-      <div class="card__face card__face--back">
-        <h2 class="section__title">Ausrichtung</h2>
-        <p><strong>Management-orientierte Rollen:</strong> Digital-/IT-Produktmanagement, Prozessmanagement, Business Analytics. Fokus: Anforderungen strukturieren, Roadmaps planen, KPIs definieren und Umsetzungen steuern.</p>
-      </div>
-    </article>
-    <article class="card card--flip">
-      <div class="card__face card__face--front"><h2 class="section__title">Ausbildung</h2><span class="eyebrow">Mein Weg.</span></div>
-      <div class="card__face card__face--back">
-        <h2 class="section__title">Ausbildung</h2>
-        <ul class="tight">
-          <li><strong>Wirtschaftsinformatik (B.Sc., laufend)</strong> – Universität Duisburg-Essen (seit 10/2023)</li>
-          <li><strong>Vertiefung:</strong> Daten &amp; Management – Master geplant</li>
-          <li><strong>Allgemeine Hochschulreife</strong> – Gymnasium Kreuzau (2015–2023)</li>
-        </ul>
-      </div>
-    </article>
+
+  <!-- FEATURES STRIP -->
+  <section class="features">
+    <div class="container features__grid">
+      <article class="fcard">
+        <div class="ficon">🎨</div>
+        <h3>Plan &amp; Priorize</h3>
+        <p>Roadmaps, Meilensteine und klare Ziele – Stakeholder &amp; Risiken im Blick.</p>
+      </article>
+      <article class="fcard">
+        <div class="ficon">⚙️</div>
+        <h3>Build</h3>
+        <p>Java‑Backends &amp; REST‑APIs, saubere Datenmodelle, Versionierung &amp; Doku.</p>
+      </article>
+      <article class="fcard">
+        <div class="ficon">📊</div>
+        <h3>Measure</h3>
+        <p>KPIs &amp; Power‑BI‑Dashboards: Fortschritt, Nutzen &amp; Qualität sichtbar machen.</p>
+      </article>
+    </div>
   </section>
 </main>
+
 <footer class="footer">
   <div class="container footer__inner">
     © <span id="year"></span> Godswill Adele Loveday · Keine Cookies · Kein Tracking
   </div>
   <script>document.getElementById('year').textContent=new Date().getFullYear();</script>
 </footer>
-</body></html>
+</body>
+</html>
