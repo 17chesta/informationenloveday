@@ -1,8 +1,26 @@
-<!DOCTYPE html><html lang="de"><head><title>Über mich – Godswill Adele Loveday</title><meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" href="index_dizer.css">
-<script defer src="main.js"></script></head>
-<body data-page="about"><header class="topbar">
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <title>Über mich – Godswill Adele Loveday</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="index_dizer.css">
+  <script defer src="main.js"></script>
+  <style>
+    body[data-page="about"] .section + .section {
+      margin-top: 0.2rem; /* minimaler Abstand */
+    }
+    body[data-page="about"] .card {
+      margin-bottom: 0.2rem; /* minimaler Abstand unter dem Kasten */
+    }
+    /* NEU: Weniger Abstand zwischen Card und FAQ */
+    body[data-page="about"] .section {
+      padding: 0.5rem 0;
+    }
+  </style>
+</head>
+<body data-page="about">
+<header class="topbar">
   <div class="container topbar__inner">
     <a class="brand" href="index.html">Godswill Adele Loveday</a>
     <nav class="nav" id="mainNav">
@@ -16,14 +34,92 @@
     </nav>
     <button class="mode-toggle" id="modeToggle" title="Dark/Light">🌓</button>
   </div>
-</header><main class="container"><section class="section"><article class="card">
-<h1 class="section__title">Über mich</h1>
-<p>Ich studiere Wirtschaftsinformatik (B.Sc.) in Essen und verbinde <strong>wirtschaftliches Denken</strong> mit <strong>IT-Know-how</strong>. Ich übernehme Verantwortung für Ergebnisse – von der Anforderungsaufnahme über Prozessanalyse bis zur Umsetzung und Auswertung (KPI/Reporting).</p>
-<p>Stärken & Interessen: <strong>Projektmanagement</strong>, <strong>KI</strong> &amp; Automatisierung, organisches Marketing, Videoschnitt (u. a. Zusammenarbeit mit Kommune für Drohnenvideos).</p>
-<p>Arbeitsweise: eigenständige Einarbeitung, strukturierte Kommunikation, schneller Praxistransfer.</p>
-</article></section></main><footer class="footer">
+</header>
+
+<main class="container">
+  <section class="section">
+    <h2 class="section__title">Über mich</h2>
+    <article class="card">
+      <p>Ich studiere Wirtschaftsinformatik (B.Sc.) in Essen und verbinde <strong>wirtschaftliches Denken</strong> mit <strong>IT-Know-how</strong>. Schon früh habe ich gelernt, Ideen in praktische Lösungen zu verwandeln: Indem ich eigenständig Autoradios umgebaut habe, ein Einzelunternehmen gründete, um eine konkrete Nachfrage zu bedienen, oder Drohnenflüge erlernte, um für eine Kommune ein professionelles Video zu produzieren. Diese Erfahrungen haben mir gezeigt, welches Potenzial darin liegt, Neues s...
+      <p>Meine Stärke ist es, <strong>Theorie in Praxis zu übertragen</strong>: Ich eigne mir kontinuierlich neues Wissen an, arbeite mich tief in Themen ein und setze diese konsequent in Projekten um. Dabei lege ich Wert darauf, dass Ideen nicht nur konzipiert, sondern ausgearbeitet und verfeinert werden – bis sie für andere verständlich, überzeugend und nutzbar sind.</p>
+      <p>Mein Ziel ist es, als <strong>Manager</strong> – etwa im Bereich IT-Projektmanagement – Verantwortung für Ergebnisse zu übernehmen: von der Anforderungsaufnahme über Prozessanalyse bis hin zur Umsetzung und Auswertung (KPI/Reporting). Dabei möchte ich meine Leidenschaft für <strong>Projektmanagement</strong> und <strong>KI &amp; Automatisierung</strong> einbringen.</p>
+      <p>Meine Arbeitsweise ist geprägt von <strong>eigenständiger Einarbeitung</strong>, <strong>strukturierter Kommunikation</strong> und einem <strong>schnellen Praxistransfer</strong>. Ich denke, dass die Grundlage erfolgreicher Projekte darin liegt, Ideen mit klarer Strategie, fundiertem technischem Verständnis und dem nötigen Feinschliff so umzusetzen, dass sie nachhaltig Wirkung entfalten.</p>
+    </article>
+  </section>
+
+  <section class="section">
+    <style>
+      /* FAQ accordion (dark/light aware, matches Dizer look) */
+      .faq{display:block; margin-top:0}
+      .faq-item{border:1px solid var(--border); background:var(--surface); border-radius:0; box-shadow:var(--shadow); margin:.75rem 0; overflow:hidden}
+      .faq-item summary{list-style:none; cursor:pointer; padding:1rem 1.1rem; font-weight:800; outline:none}
+      .faq-item summary::-webkit-details-marker{display:none}
+      .faq-item .faq-body{padding:0 1.1rem 1rem 1.1rem; color:var(--muted)}
+      .faq-item[open]{border-color:#ff6f61; box-shadow:0 14px 40px rgba(0,0,0,.22)}
+      .faq-item summary:focus-visible{box-shadow:0 0 0 3px color-mix(in srgb, var(--brand) 28%, transparent) inset}
+    </style>
+    <h2 class="section__title">FAQ</h2>
+    <div class="faq">
+      <details class="faq-item scroll-anim">
+        <summary>Wie lange studierst du noch?</summary>
+        <div class="faq-body">
+          <p>Ich habe vor, an meinen Bachelor noch den Master anzuhängen und studiere voraussichtlich bis <strong>2028</strong>.</p>
+        </div>
+      </details>
+      <details class="faq-item scroll-anim">
+        <summary>Worauf willst du dich fokussieren?</summary>
+        <div class="faq-body">
+          <p>Ich möchte mich auf <strong>Projektmanagement</strong> spezialisieren, weil ich die Zusammenarbeit mit Menschen mag, gut koordinieren kann und bereits Erfahrungen im Praktikum und in einem Uni-Projekt gesammelt habe.</p>
+        </div>
+      </details>
+      <details class="faq-item scroll-anim">
+        <summary>Was motiviert dich im Studium am meisten?</summary>
+        <div class="faq-body">
+          <p>Neue Dinge zu lernen, Probleme kreativ zu lösen und Gelerntes direkt anzuwenden.</p>
+        </div>
+      </details>
+      <details class="faq-item scroll-anim">
+        <summary>Was machst du neben dem Studium?</summary>
+        <div class="faq-body">
+          <p>Ich setze regelmäßig neue Projekte um, bilde mich stetig weiter und bin offen dafür, neue Programme und Methoden auszuprobieren – je nachdem, welche Chancen sich bieten.</p>
+        </div>
+      </details>
+      <details class="faq-item scroll-anim">
+        <summary>Wo siehst du dich in fünf Jahren?</summary>
+        <div class="faq-body">
+          <p>In einer verantwortungsvollen Rolle, in der ich fachlich und persönlich weiterwachse.</p>
+        </div>
+      </details>
+      <details class="faq-item scroll-anim">
+        <summary>Was war bisher dein größter Lernerfolg?</summary>
+        <div class="faq-body">
+          <p>Diese Webseite war für mich ein praktisches Lernprojekt: Ich habe KI ergänzend eingesetzt, um mein Frontend-Know-how zu erweitern, dynamische Darstellungen zu entwickeln und Interaktionen umzusetzen. Gleichzeitig musste ich selbst Fehler beheben, Lösungen finden, meine Ideen klar formulieren und die Ergebnisse anpassen. Auch das Design und einzelne Inhalte habe ich eigenständig überarbeitet, da KI nicht alles perfekt liefert und manuelles Feintuning notwendig war.</p>
+        </div>
+      </details>
+    </div>
+  </section>
+</main>
+
+<footer class="footer">
   <div class="container footer__inner">
     © <span id="year"></span> Godswill Adele Loveday · Keine Cookies · Kein Tracking
   </div>
   <script>document.getElementById('year').textContent=new Date().getFullYear();</script>
-</footer></body></html>
+</footer>
+
+<script>
+  // FAQ: open on hover for pointer devices, keep click for touch
+  (function(){
+    try{
+      const isCoarse = window.matchMedia("(pointer: coarse)").matches;
+      if(isCoarse) return; // On touch devices we keep default click behavior
+      document.querySelectorAll('.faq-item').forEach(d => {
+        d.addEventListener('mouseenter', () => { d.setAttribute('open',''); });
+        d.addEventListener('mouseleave', () => { d.removeAttribute('open'); });
+      });
+    }catch(e){ /* no-op */ }
+  })();
+</script>
+
+</body>
+</html>

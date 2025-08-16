@@ -1,175 +1,229 @@
-// Main site JS – konsistente Navigation, Theme, Banner, Filter, Modals, Slider
+
+/*! Interactive CV Core JS – Godswill Adele Loveday (2025-08-16)
+   Covers: theme toggle, active nav, scroll-animations, PM guided demo,
+           skills modal, projects filter, timeline touch toggle.
+*/
+
 (function(){
-  const $ = (sel, root=document) => root.querySelector(sel);
-  const $$ = (sel, root=document) => Array.from(root.querySelectorAll(sel));
+  const $ = s => document.querySelector(s);
+  const $$ = s => Array.from(document.querySelectorAll(s));
 
-  // ===== Theme handling (persist + system preference) =====
-  const rootHtml = document.documentElement;
-  const modeToggle = $('#modeToggle');
-  const STORAGE_KEY = 'theme';
+  /* ===== Theme toggle with persistence ===== */
+  const html = document.documentElement;
+  const themeKey = "gal_theme";
+  const saved = localStorage.getItem(themeKey);
+  if(saved){ html.setAttribute("data-theme", saved); }
+  const modeBtn = $("#modeToggle");
+  if(modeBtn){
+    modeBtn.addEventListener("click", () => {
+      const cur = html.getAttribute("data-theme") || "dark";
+      const next = cur === "light" ? "dark" : "light";
+      html.setAttribute("data-theme", next);
+      localStorage.setItem(themeKey, next);
+    });
+  }
 
-  function applyTheme(theme){
-    if(theme === 'light' || theme === 'dark'){
-      rootHtml.setAttribute('data-theme', theme);
-      localStorage.setItem(STORAGE_KEY, theme);
-    }else{
-      // fallback: system preference
-      const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
-      rootHtml.setAttribute('data-theme', prefersDark ? 'dark':'light');
+  /* ===== Active nav link by body[data-page] ===== */
+  (function markActiveNav(){
+    const page = document.body.getAttribute("data-page");
+    if(!page) return;
+    $$("#mainNav .nav__link").forEach(a => a.classList.remove("is-active"));
+    const map = {
+      index:"index.html",
+      about:"about.html",
+      skills:"skills.html",
+      timeline:"timeline.html",
+      projects:"projects.html",
+      projektmanagement:"projektmanagement.html",
+      contact:"contact.html"
+    };
+    const href = map[page];
+    if(href){
+      const link = $(`#mainNav .nav__link[href="${href}"]`);
+      if(link) link.classList.add("is-active");
     }
-  }
-  // init
-  applyTheme(localStorage.getItem(STORAGE_KEY));
+  })();
 
-  if(modeToggle){
-    modeToggle.addEventListener('click', ()=>{
-      const cur = rootHtml.getAttribute('data-theme') || 'light';
-      applyTheme(cur === 'light' ? 'dark' : 'light');
-    });
-  }
-
-  // ===== Active nav highlighting based on data-page =====
-  const page = document.body.dataset.page;
-  if(page){
-    // try direct href match first
-    const link = $(`.nav a[href$="${page}.html"]`);
-    if(link){ link.classList.add('is-active'); }
-    // remove accidental duplicates
-    $$('.nav a').forEach(a => {
-      if(a !== link) a.classList.remove('is-active');
-    });
-  }
-
-  // ===== Sub‑Hero banner on pages without .hero (use same background color as index) =====
-  function ensureSubHero(){
-    if($('.hero')) return; // index already has one
-    const h1 = $('main h1, .section__title, h1');
-    const sub = document.createElement('section');
-    sub.className = 'hero hero--sub';
-    sub.innerHTML = `<div class="container hero__inner">
-        <div class="hero__copy">
-          <h1>${h1 ? h1.textContent : document.title}</h1>
-          ${$('.lead') ? `<p class="lead">${$('.lead').textContent}</p>` : ''}
-        </div>
-      </div>`;
-    document.body.insertBefore(sub, $('main'));
-  }
-  ensureSubHero();
-
-  // ===== Projects: chips + live search =====
-  (function initProjectFilters(){
-    const list = $('#projList');
-    if(!list) return;
-    const cards = $$('#projList .proj');
-    const chips = $$('#chipbar .chip');
-    const search = $('#projSearch');
-    let activeTag = '';
-
-    function apply(){
-      const q = (search?.value || '').trim().toLowerCase();
-      cards.forEach(card => {
-        const tags = (card.dataset.tags || '').toLowerCase();
-        const text = card.textContent.toLowerCase();
-        const tagOk = !activeTag || tags.includes(activeTag);
-        const textOk = !q || text.includes(q);
-        card.style.display = (tagOk && textOk) ? '' : 'none';
+  /* ===== Scroll-in animations ===== */
+  (function observeScrollIn(){
+    const els = $$(".scroll-anim");
+    if(!("IntersectionObserver" in window) || !els.length) {
+      els.forEach(el => el.classList.add("visible"));
+      return;
+    }
+    const io = new IntersectionObserver((entries)=>{
+      entries.forEach(e => {
+        if(e.isIntersecting){
+          e.target.classList.add("visible");
+          io.unobserve(e.target);
+        }
       });
-      // empty state
-      if(!$('#proj-empty')){
-        const empty = document.createElement('p');
-        empty.id = 'proj-empty';
-        empty.textContent = 'Keine Ergebnisse.';
-        empty.style.display = 'none';
-        list.parentElement.appendChild(empty);
+    }, { threshold: .12 });
+    els.forEach(el => io.observe(el));
+  })();
+
+  /* ===== PM Guided Demo (slider) ===== */
+  (function pmSlider(){
+    /* AUTO DOTS: build dots dynamically based on .pm-stage count */
+    const root = $("#pm");
+    if(!root) return;
+    const stages = $$(".pm-stage");
+    const stepsEl = document.querySelector(".pm-steps");
+    let dots = $$(".pm-steps .dot");
+    if(stepsEl){
+      stepsEl.innerHTML = "";
+      for(let i=0;i<stages.length;i++){
+        const d = document.createElement("span");
+        d.className = "dot" + (i===0 ? " is-active" : "");
+        stepsEl.appendChild(d);
       }
-      const anyVisible = cards.some(c => c.style.display !== 'none');
-      $('#proj-empty').style.display = anyVisible ? 'none' : '';
+      dots = $$(".pm-steps .dot");
+    }
+    const prev = $("#pm-prev");
+    const next = $("#pm-next");
+    let idx = 0;
+
+    function show(i){
+      idx = Math.max(0, Math.min(i, stages.length-1));
+      stages.forEach((s, n) => s.classList.toggle("is-active", n === idx));
+      dots = $$('.pm-steps .dot');
+      dots.forEach((d, n) => d.classList.toggle('is-active', n === idx));
+      if(prev) prev.disabled = idx === 0;
+      if(next) next.textContent = idx === stages.length-1 ? "Fertig" : "Weiter";
+      // announce for a11y
+      const h = stages[idx].querySelector("h2,h3");
+      if(h){ h.setAttribute("tabindex","-1"); h.focus({preventScroll:false}); }
+      // update hash for deep-linking
+      history.replaceState(null, "", `#step=${idx+1}`);
     }
 
-    chips.forEach(ch => ch.addEventListener('click', () => {
-      chips.forEach(c => c.classList.remove('is-active'));
-      ch.classList.add('is-active');
-      activeTag = (ch.dataset.chip || '').toLowerCase();
+    // init from hash
+    const m = location.hash.match(/step=(\d+)/);
+    if(m){ idx = Math.max(0, Math.min(parseInt(m[1],10)-1, stages.length-1)); }
+
+    show(idx);
+
+    prev && prev.addEventListener("click", () => show(idx-1));
+    next && next.addEventListener("click", () => {
+      if(idx === stages.length-1){
+        // back to first step to loop
+        show(0);
+      }else{
+        show(idx+1);
+      }
+    });
+
+    // click dots
+    dots.forEach((d, n) => d.addEventListener("click", () => show(n)));
+
+    // keyboard
+    document.addEventListener("keydown", (e)=>{
+      if(e.key === "ArrowRight") show(idx+1);
+      else if(e.key === "ArrowLeft") show(idx-1);
+    });
+
+    // swipe (simple)
+    let startX = 0, startY = 0, swiping = false;
+    function onTouchStart(e){
+      const t = e.touches[0];
+      startX = t.clientX; startY = t.clientY; swiping = true;
+    }
+    function onTouchMove(e){
+      if(!swiping) return;
+      const t = e.touches[0];
+      const dx = t.clientX - startX;
+      const dy = t.clientY - startY;
+      // horizontal swipe dominance
+      if(Math.abs(dx) > Math.abs(dy) && Math.abs(dx) > 24){
+        e.preventDefault();
+      }
+    }
+    function onTouchEnd(e){
+      if(!swiping) return;
+      swiping = false;
+      const t = e.changedTouches[0];
+      const dx = t.clientX - startX;
+      if(Math.abs(dx) > 60){
+        if(dx < 0) show(idx+1);
+        else show(idx-1);
+      }
+    }
+    root.addEventListener("touchstart", onTouchStart, {passive:true});
+    root.addEventListener("touchmove", onTouchMove, {passive:false});
+    root.addEventListener("touchend", onTouchEnd, {passive:true});
+  })();
+
+  /* ===== Skills modal ===== */
+  (function skillsModal(){
+    const grid = $("#skillsGrid");
+    const modal = $("#skillModal");
+    if(!grid || !modal) return;
+    const title = $("#modalTitle");
+    const desc = $("#modalDesc");
+    const src = $("#modalSrc");
+    const closeBtn = $("#modalClose");
+
+    grid.addEventListener("click", (e)=>{
+      const btn = e.target.closest(".skill-card");
+      if(!btn) return;
+      title.textContent = btn.dataset.title || "";
+      desc.textContent = btn.dataset.desc || "";
+      src.textContent = btn.dataset.src || "";
+      modal.setAttribute("aria-hidden","false");
+    });
+    closeBtn && closeBtn.addEventListener("click", ()=> modal.setAttribute("aria-hidden","true"));
+    modal.addEventListener("click", (e)=>{
+      if(e.target === modal) modal.setAttribute("aria-hidden","true");
+    });
+    document.addEventListener("keydown",(e)=>{
+      if(e.key === "Escape") modal.setAttribute("aria-hidden","true");
+    });
+  })();
+
+  /* ===== Projects filter (chips + search) ===== */
+  (function projectsFilter(){
+    const chips = $$("#chipbar .chip");
+    const search = $("#projSearch");
+    const cards = $$("#projList .proj");
+    if(!cards.length) return;
+
+    let activeTag = "";
+    function apply(){
+      const q = (search?.value || "").toLowerCase().trim();
+      cards.forEach(card => {
+        const text = (card.textContent || "").toLowerCase();
+        const tags = (card.dataset.tags || "").toLowerCase();
+        const matchQ = !q || text.includes(q);
+        const matchTag = !activeTag || tags.includes(activeTag);
+        card.style.display = (matchQ && matchTag) ? "" : "none";
+      });
+    }
+    chips.forEach(ch => ch.addEventListener("click", ()=>{
+      chips.forEach(c => c.classList.remove("is-active"));
+      ch.classList.add("is-active");
+      activeTag = (ch.dataset.chip || "").toLowerCase();
       apply();
-      // Deaktiviert die Suche beim Chip-Wechsel? Nein – Suche bleibt bestehen.
     }));
-
-    if(search){
-      search.addEventListener('input', apply);
-    }
+    search && search.addEventListener("input", apply);
     apply();
   })();
 
-  // ===== Skills: modal content fill =====
-  (function initSkills(){
-    const grid = $('#skillsGrid');
-    if(!grid) return;
-    const modal = $('#skillModal');
-    const closeBtn = $('#modalClose');
-    const t = $('#modalTitle'), d = $('#modalDesc'), s = $('#modalSrc');
-
-    grid.addEventListener('click', (e)=>{
-      const btn = e.target.closest('.skill-card');
-      if(!btn) return;
-      t.textContent = btn.dataset.title || '';
-      d.textContent = btn.dataset.desc || 'Kurzbeschreibung folgt.';
-      s.textContent = btn.dataset.src || '';
-      modal.setAttribute('aria-hidden','false');
-    });
-    closeBtn?.addEventListener('click', ()=> modal.setAttribute('aria-hidden','true'));
-    modal.addEventListener('click', (e)=>{
-      if(e.target === modal) modal.setAttribute('aria-hidden','true');
-    });
-    document.addEventListener('keydown', (e)=>{
-      if(e.key === 'Escape') modal.setAttribute('aria-hidden','true');
+  /* ===== Timeline: tap to toggle details on mobile ===== */
+  (function timelineTap(){
+    const list = $$(".timeline .tl-item");
+    if(!list.length) return;
+    list.forEach(item => {
+      const body = item.querySelector(".tl-body");
+      if(!body) return;
+      item.addEventListener("click", (e)=>{
+        const open = body.classList.toggle("open");
+        if(open){
+          body.style.maxHeight = body.scrollHeight + "px";
+        }else{
+          body.style.maxHeight = null;
+        }
+      });
     });
   })();
-
-  // ===== PM slider next/prev + dots =====
-  
-  (function initPmSlider(){
-    const container = $('#pm');
-    if(!container) return;
-    const stages = $$('.pm-stage', container);
-    const dots = $$('.pm-steps .dot', container.parentElement);
-    const prev = $('#pm-prev');
-    const next = $('#pm-next');
-    // create Finish button if not exists
-    let finish = $('#pm-finish');
-    if(!finish){
-      finish = document.createElement('button');
-      finish.id = 'pm-finish';
-      finish.className = 'btn';
-      finish.textContent = 'Fertig';
-      $('#pm .pm-ctrls')?.appendChild(finish);
-    }
-    let idx = stages.findIndex(s => s.classList.contains('is-active'));
-    if(idx < 0) idx = 2; // default emphasize Jira
-
-    function show(i){
-      idx = Math.max(0, Math.min(stages.length-1, i));
-      stages.forEach((s, k) => s.classList.toggle('is-active', k === idx));
-      dots.forEach((d, k) => d.classList.toggle('is-active', k === idx));
-      if(prev) prev.disabled = idx === 0;
-      if(next) next.disabled = idx === stages.length-1;
-      // finish visible only on last
-      if(finish) finish.style.display = (idx === stages.length-1) ? '' : 'none';
-    }
-    prev?.addEventListener('click', ()=> show(idx-1));
-    next?.addEventListener('click', ()=> show(idx+1));
-    finish?.addEventListener('click', ()=> {
-      show(0);
-      window.scrollTo({top:0, behavior:'smooth'});
-    });
-
-    // keyboard support
-    document.addEventListener('keydown', (e)=>{
-      if(e.key === 'ArrowRight') show(idx+1);
-      if(e.key === 'ArrowLeft') show(idx-1);
-    });
-
-    show(idx);
-  })();
-
 
 })();
