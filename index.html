@@ -29,8 +29,8 @@
   <section class="hero">
     <div class="container hero__inner">
       <div class="hero__copy">
-        <p class="eyebrow">MY NAME IS GODSWILL</p>
-        <h1>Ich bin Wirtschaftsinformatik‑Student, pragmatischer <span>IT‑Projektmanager</span> &amp; <span>Java‑Developer</span>.</h1>
+        <p class="eyebrow">MEIN NAME IST GODSWILL</p>
+        <h1>Ich bin <span>Wirtschaftsinformatik‑Student</span>.</h1>
         <p class="lead">Ich plane, baue und messe – von der Roadmap bis zum KPI‑Dashboard. Schwerpunkt: REST‑APIs, Jira/Kanban &amp; Power BI.</p>
         <div class="cta">
           <a class="btn btn--primary" href="contact.html">Kontakt aufnehmen</a>
@@ -42,6 +42,12 @@
       </div>
     </div>
   </section>
+
+<section class="section" style="text-align:center; padding:3rem 1rem; background:#f5f5f5;">
+  <h2 style="font-size:2rem; margin-bottom:1rem;">Neue Webseite: <a href="https://www.loveday.me" target="_blank">www.loveday.me</a> besuchen</h2>
+  <a href="https://www.loveday.me" target="_blank" class="button" style="font-size:1.2rem; padding:1rem 2rem; margin-top:1rem; display:inline-block;">Zur neuen Webseite</a>
+</section>
+
 
   <!-- FEATURES STRIP -->
   <section class="features">
@@ -63,6 +69,62 @@
       </article>
     </div>
   </section>
+
+<section class="section">
+  <div class="container">
+<section class="section">
+    <style>
+      /* FAQ accordion (dark/light aware, matches Dizer look) */
+      .faq{display:block; margin-top:0}
+      .faq-item{border:1px solid var(--border); background:var(--surface); border-radius:0; box-shadow:var(--shadow); margin:.75rem 0; overflow:hidden}
+      .faq-item summary{list-style:none; cursor:pointer; padding:1rem 1.1rem; font-weight:800; outline:none}
+      .faq-item summary::-webkit-details-marker{display:none}
+      .faq-item .faq-body{padding:0 1.1rem 1rem 1.1rem; color:var(--muted)}
+      .faq-item[open]{border-color:#ff6f61; box-shadow:0 14px 40px rgba(0,0,0,.22)}
+      .faq-item summary:focus-visible{box-shadow:0 0 0 3px color-mix(in srgb, var(--brand) 28%, transparent) inset}
+    </style>
+    <h2 class="section__title">FAQ</h2>
+    <div class="faq">
+      <details class="faq-item scroll-anim">
+        <summary>Wie lange studierst du noch?</summary>
+        <div class="faq-body">
+          <p>Ich habe vor, an meinen Bachelor noch den Master anzuhängen und studiere voraussichtlich bis <strong>2028</strong>.</p>
+        </div>
+      </details>
+      <details class="faq-item scroll-anim">
+        <summary>Worauf willst du dich fokussieren?</summary>
+        <div class="faq-body">
+          <p>Ich möchte mich auf <strong>Projektmanagement</strong> spezialisieren, weil ich die Zusammenarbeit mit Menschen mag, gut koordinieren kann und bereits Erfahrungen im Praktikum und in einem Uni-Projekt gesammelt habe.</p>
+        </div>
+      </details>
+      <details class="faq-item scroll-anim">
+        <summary>Was motiviert dich im Studium am meisten?</summary>
+        <div class="faq-body">
+          <p>Neue Dinge zu lernen, Probleme kreativ zu lösen und Gelerntes direkt anzuwenden.</p>
+        </div>
+      </details>
+      <details class="faq-item scroll-anim">
+        <summary>Was machst du neben dem Studium?</summary>
+        <div class="faq-body">
+          <p>Ich setze regelmäßig neue Projekte um, bilde mich stetig weiter und bin offen dafür, neue Programme und Methoden auszuprobieren – je nachdem, welche Chancen sich bieten.</p>
+        </div>
+      </details>
+      <details class="faq-item scroll-anim">
+        <summary>Wo siehst du dich in fünf Jahren?</summary>
+        <div class="faq-body">
+          <p>In einer verantwortungsvollen Rolle, in der ich fachlich und persönlich weiterwachse.</p>
+        </div>
+      </details>
+      <details class="faq-item scroll-anim">
+        <summary>Was war bisher dein größter Lernerfolg?</summary>
+        <div class="faq-body">
+          <p>Diese Webseite war für mich ein praktisches Lernprojekt: Ich habe KI ergänzend eingesetzt, um mein Frontend-Know-how zu erweitern, dynamische Darstellungen zu entwickeln und Interaktionen umzusetzen. Gleichzeitig musste ich selbst Fehler beheben, Lösungen finden, meine Ideen klar formulieren und die Ergebnisse anpassen. Auch das Design und einzelne Inhalte habe ich eigenständig überarbeitet, da KI nicht alles perfekt liefert und manuelles Feintuning notwendig war.</p>
+        </div>
+      </details>
+    </div>
+  </section>
+  </div>
+</section>
 </main>
 
 <footer class="footer">
@@ -71,5 +133,33 @@
   </div>
   <script>document.getElementById('year').textContent=new Date().getFullYear();</script>
 </footer>
+
+<script>
+// FAQ Hover öffnen (Desktop)
+(function(){
+  const isCoarse = window.matchMedia("(pointer: coarse)").matches;
+  if(isCoarse) return;
+  document.querySelectorAll('.faq-item').forEach(d => {
+    d.addEventListener('mouseenter', ()=> d.setAttribute('open',''));
+    d.addEventListener('mouseleave', ()=> d.removeAttribute('open'));
+  });
+})();
+</script>
+
+
+<script>
+// FAQ auf Startseite: öffnet beim Hover für Maus, Klick für Touch
+(function(){
+  try{
+    const isCoarse = window.matchMedia("(pointer: coarse)").matches;
+    if(isCoarse) return;
+    document.querySelectorAll('.faq-item').forEach(d => {
+      d.addEventListener('mouseenter', ()=> d.setAttribute('open',''));
+      d.addEventListener('mouseleave', ()=> d.removeAttribute('open'));
+    });
+  }catch(e){}
+})();
+</script>
+
 </body>
 </html>
