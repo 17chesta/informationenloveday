@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<title>Projektmanagement – Präsentation</title>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<link href="index_dizer.css" rel="stylesheet"/>
+<script defer src="main.js"></script>
+
+<style>
+/* Inline styles for Info badges/popovers (lightweight, dark-mode aware) */
+.pm-info{
+  position:absolute; right:12px; top:12px; z-index:5;
+}
+.pm-info__btn{
+  border:1px solid var(--border);
+  background: color-mix(in srgb, var(--surface) 92%, transparent);
+  color: var(--text);
+  
+  font-size: 1rem;
+  padding: 8px 14px;
+  border:1px solid var(--line);
+  background: var(--surface);
+  color: var(--text);
+  padding: 6px 10px;
+  border-radius: 999px;
+  cursor: pointer;
+  font-size: 0.85rem;
+  box-shadow: var(--shadow);
+}
+.pm-info__btn:hover{ opacity:.9; }
+
+.pm-info__pop{
+  --line: var(--border);
+  background: var(--surface);
+  color: var(--text);
+  border: 1px solid var(--border);
+  box-shadow: 0 14px 50px rgba(0,0,0,.28);
+  line-height: 1.5;
+  
+  position:absolute;
+  right:12px; top:46px;
+  min-width: 360px; max-width: 640px;
+  background: var(--surface);
+  color: var(--text);
+  border:1px solid var(--line);
+  border-radius: 10px;
+  box-shadow: var(--shadow);
+  padding: 10px 12px;
+  font-size: .95rem;
+  line-height: 1.35;
+  display:none;
+}
+.pm-info__pop p{ margin:.2rem 0; }
+.pm-info__pop strong{ font-weight:700; }
+
+/* Ensure visibility in immersive mode */
+body.immersive .pm-info__pop{
+  --line: var(--border);
+  background: var(--surface);
+  color: var(--text);
+  border: 1px solid var(--border);
+  box-shadow: 0 14px 50px rgba(0,0,0,.28);
+  line-height: 1.5;
+   z-index: 15; }
+
+/* Show on hover OR when .is-open set via JS for touch */
+.pm-info:hover .pm-info__pop,
+.pm-info.is-open .pm-info__pop{
+  --line: var(--border);
+  background: var(--surface);
+  color: var(--text);
+  border: 1px solid var(--border);
+  box-shadow: 0 14px 50px rgba(0,0,0,.28);
+  line-height: 1.5;
+   display:block; }
+</style>
+</head>
+<body class="immersive" data-page="projektmanagement">
+<header class="topbar">
+<div class="container topbar__inner">
+<a class="brand" href="index.html">Godswill Adele Loveday</a>
+<nav class="nav" id="mainNav">
+<a class="nav__link" href="index.html">Start</a>
+<a class="nav__link" href="about.html">Über mich</a>
+<a class="nav__link" href="skills.html">Skills</a>
+<a class="nav__link" href="timeline.html">Zeitleiste</a>
+<a class="nav__link" href="projects.html">Projekte</a>
+<a class="nav__link is-active" href="projektmanagement.html">Projektmanagement</a>
+<a class="nav__link" href="contact.html">Kontakt</a>
+</nav>
+<button class="mode-toggle" id="modeToggle" title="Dark/Light">🌓</button>
+</div>
+</header>
+<main class="container">
+<div class="pm-home-wrap">
+<a class="btn header-home" href="index.html" title="Zur Startseite">Zur Startseite</a>
+</div>
+<section class="section">
+<h1 class="section__title">Projektmanagement</h1>
+<p class="section__subtitle pm-sub">Geführte Demo: Projektmanagement → Zeitleiste → Jira → Risiken → Stakeholder → Power BI → Fazit</p>
+<p class="hint">⚠️ Achtung: Immersivmodus – die obere Navigation ist in der Demo ausgeblendet.</p>
+
+
+<div class="pbi-stage">
+<div class="pm-card" id="pm">
+<div aria-hidden="true" class="pm-steps">
+<span class="dot is-active"></span>
+<span class="dot"></span>
+<span class="dot"></span>
+<span class="dot"></span>
+<span class="dot"></span>
+</div>
+
+<!-- Step 1 -->
+<div class="pm-stage scroll-anim is-active" data-step="1" style="position:relative">
+  <div class="pm-info">
+    <button class="pm-info__btn" type="button" aria-haspopup="true" aria-expanded="false">Information</button>
+    <div class="pm-info__pop" role="dialog">
+      <p><strong>Hinweis:</strong> Die hier gezeigten Projektmanagement-Fähigkeiten habe ich mir eigenständig angeeignet und entwickle sie laufend weiter.</p>
+      <p>Es handelt sich um ein <strong>fiktives Projekt</strong>, das ich vollständig selbst erstellt habe – einschließlich aller Daten und Inhalte. Einige Grafiken wurden beispielsweise mit <strong>Python</strong> generiert.</p>
+      <p>Ich bin offen für <strong>neue Methoden und Tools</strong>, um Arbeitsabläufe effizient anzupassen und zu optimieren.</p>
+    </div>
+  </div>
+  <h2 class="pm-head--accent">Projektmanagement – Kurzpräsentation</h2>
+  <p class="hint">💡 Auf jeder Seite dieser Demo gibt es einen Informationskasten mit meinen Gedanken und Ideen. Antippen oder anklicken, um Details zu sehen.</p>
+</div>
+
+<!-- Step 2 -->
+<div class="pm-stage scroll-anim" data-step="2" style="position:relative">
+  <div class="pm-info">
+    <button class="pm-info__btn" type="button" aria-haspopup="true" aria-expanded="false">Information</button>
+    <div class="pm-info__pop" role="dialog">
+      <p>Die <strong>interaktive Zeitleiste</strong> strukturiert Phasen, Meilensteine und Fortschritt übersichtlich. Der Ansatz ist flexibel und kann mit weiteren Tools erweitert werden.</p>
+    </div>
+  </div>
+  <h3 class="pm-head--accent">Interaktive Zeitleiste</h3>
+  <p class="hint">💡 Auf jeder Seite dieser Demo gibt es einen Informationskasten mit meinen Gedanken und Ideen. Antippen oder anklicken, um Details zu sehen.</p>
+  <div class="pm-iframe">
+    <iframe loading="lazy" src="projekt_zeitleiste.html" title="Projekt-Zeitleiste"></iframe>
+  </div>
+</div>
+
+<!-- Step 3 -->
+<div class="pm-stage scroll-anim" data-step="3" style="position:relative">
+  <div class="pm-info">
+    <button class="pm-info__btn" type="button" aria-haspopup="true" aria-expanded="false">Information</button>
+    <div class="pm-info__pop" role="dialog">
+      <p><strong>Jira</strong> nutze ich zur Planung und Steuerung. <strong>Stichpunkte</strong> und <strong>Termine</strong> werden eingeblendet, damit der Überblick auf einen Blick gelingt. Weitere PM-Tools kann ich jederzeit integrieren.</p>
+    </div>
+  </div>
+  <h3 class="pm-head--accent">Planung &amp; Umsetzung in Jira</h3>
+  <p class="hint">💡 Auf jeder Seite dieser Demo gibt es einen Informationskasten mit meinen Gedanken und Ideen. Antippen oder anklicken, um Details zu sehen.</p>
+  <div class="pm-grid">
+<figure>
+      <img alt="Jira Board" class="pm-img" src="assets/jira_step2.png"/>
+      <figcaption class="pm-caption">Kanban-Board.</figcaption>
+    </figure>
+<figure>
+      <img alt="Jira Ticket-Detail" class="pm-img" src="assets/jira_step1.png"/>
+      <figcaption class="pm-caption">Ticket-Detail.</figcaption>
+    </figure>
+</div>
+</div>
+
+<!-- Step 4 -->
+<div class="pm-stage scroll-anim" data-step="4" style="position:relative">
+  <div class="pm-info">
+    <button class="pm-info__btn" type="button" aria-haspopup="true" aria-expanded="false">Information</button>
+    <div class="pm-info__pop" role="dialog">
+      <p>Im <strong>Risikomanagement</strong> identifiziere, bewerte und priorisiere ich potenzielle Risiken. So lässt sich früh einschätzen, welche Maßnahmen relevant und wie zeitkritisch sie sind.</p>
+    </div>
+  </div>
+  <h3 class="pm-head--accent">Risiko‑Management</h3>
+  <p class="hint">💡 Auf jeder Seite dieser Demo gibt es einen Informationskasten mit meinen Gedanken und Ideen. Antippen oder anklicken, um Details zu sehen.</p>
+  <figure><img alt="Risikomatrix" class="pm-img" src="assets/risikomatrix_ohne_farbe.png"/></figure>
+</div>
+
+<!-- Step 5 -->
+<div class="pm-stage scroll-anim" data-step="5" style="position:relative">
+  <div class="pm-info">
+    <button class="pm-info__btn" type="button" aria-haspopup="true" aria-expanded="false">Information</button>
+    <div class="pm-info__pop" role="dialog">
+      <p>Die <strong>Stakeholder‑Analyse</strong> stellt sicher, dass Interessen und Erwartungen der Beteiligten verstanden und gezielt in die Planung einbezogen werden.</p>
+    </div>
+  </div>
+  <h3 class="pm-head--accent">Stakeholder‑Analyse</h3>
+  <p class="hint">💡 Auf jeder Seite dieser Demo gibt es einen Informationskasten mit meinen Gedanken und Ideen. Antippen oder anklicken, um Details zu sehen.</p>
+  <figure><img alt="Stakeholder-Map" class="pm-img" src="assets/stakeholder_map_gross.png"/></figure>
+</div>
+
+
+<!-- === NEW SLIDES (kombiniert: Grafik + Rohdaten je Thema) === -->
+
+<!-- Aufgabenübersicht – Chart + Rohdaten -->
+<div class="pm-stage scroll-anim" style="position:relative">
+  <div class="pm-info">
+    <button class="pm-info__btn" type="button" aria-haspopup="true" aria-expanded="false">Information</button>
+    <div class="pm-info__pop" role="dialog">
+      <p>Hier sehen wir eine Übersicht der einzelnen Aufgaben, aufgeteilt in die Kategorien <em>ToDo</em>, <em>InProgress</em> und <em>Done</em>.</p>
+    </div>
+  </div>
+  <h3 class="pm-head--accent">Aufgabenübersicht – ToDo, InProgress &amp; Done</h3>
+  <p class="hint">💡 Auf jeder Seite dieser Demo gibt es einen Informationskasten mit meinen Gedanken und Ideen. Antippen oder anklicken, um Details zu sehen.</p>
+  <div class="pm-grid">
+    <figure>
+      <img alt="Aufgabenübersicht Grafik" class="pm-img" src="assets/tasks_overview_chart.png"/>
+      <figcaption class="pm-caption">Beschreibung: Verlauf der Aufgaben – ToDo nimmt ab, Done steigt.</figcaption>
+    </figure>
+    <figure>
+      <img alt="Aufgabenübersicht Rohdaten" class="pm-img" src="assets/tasks_overview_data.png"/>
+      <figcaption class="pm-caption">Rohdaten: Datum, ToDo, InProgress, Done.</figcaption>
+    </figure>
+  </div>
+</div>
+
+<!-- Tagesleistung – Chart + Rohdaten -->
+<div class="pm-stage scroll-anim" style="position:relative">
+  <div class="pm-info">
+    <button class="pm-info__btn" type="button" aria-haspopup="true" aria-expanded="false">Information</button>
+    <div class="pm-info__pop" role="dialog">
+      <p>Im nächsten Schritt betrachten wir die Verteilung der erledigten Aufgaben auf die einzelnen Tage.</p>
+    </div>
+  </div>
+  <h3 class="pm-head--accent">Tagesleistung – Abgeschlossene Tickets pro Tag</h3>
+  <p class="hint">💡 Auf jeder Seite dieser Demo gibt es einen Informationskasten mit meinen Gedanken und Ideen. Antippen oder anklicken, um Details zu sehen.</p>
+  <div class="pm-grid">
+    <figure>
+      <img alt="Tagesleistung Grafik" class="pm-img" src="assets/daily_done_chart.png"/>
+      <figcaption class="pm-caption">Beschreibung: Balkendiagramm der täglichen DoneTickets. Schwankungen der Produktivität erkennbar.</figcaption>
+    </figure>
+    <figure>
+      <img alt="Tagesleistung Rohdaten" class="pm-img" src="assets/daily_done_data.png"/>
+      <figcaption class="pm-caption">Rohdaten: DoneDate &amp; DoneTickets.</figcaption>
+    </figure>
+  </div>
+</div>
+
+<!-- Burn-Down – Chart + Rohdaten -->
+<div class="pm-stage scroll-anim" style="position:relative">
+  <div class="pm-info">
+    <button class="pm-info__btn" type="button" aria-haspopup="true" aria-expanded="false">Information</button>
+    <div class="pm-info__pop" role="dialog">
+      <p>Klassisches Burn-Down mit geplanten Tickets, erledigten Tickets (Done) und verbleibenden Tickets.</p>
+    </div>
+  </div>
+  <h3 class="pm-head--accent">Burn-Down-Chart – Geplante vs. Erreichte Tickets</h3>
+  <p class="hint">💡 Auf jeder Seite dieser Demo gibt es einen Informationskasten mit meinen Gedanken und Ideen. Antippen oder anklicken, um Details zu sehen.</p>
+  <div class="pm-grid">
+    <figure>
+      <img alt="Burn Down Chart" class="pm-img" src="assets/burndown_chart.png"/>
+      <figcaption class="pm-caption">Beschreibung: Done-Linie nähert sich der Zielgeraden – Planfortschritt sichtbar.</figcaption>
+    </figure>
+    <figure>
+      <img alt="Burn Down Rohdaten" class="pm-img" src="assets/burndown_data.png"/>
+      <figcaption class="pm-caption">Rohdaten: DateISO, PlannedTickets, DoneTickets, RemainingTickets.</figcaption>
+    </figure>
+  </div>
+</div>
+
+<!-- Abschluss / Fazit -->
+<div class="pm-stage scroll-anim" style="position:relative">
+  <h3 class="pm-head--accent">Fazit &amp; Ausblick</h3>
+  <p class="hint">💡 Auf jeder Seite dieser Demo gibt es einen Informationskasten mit meinen Gedanken und Ideen. Antippen oder anklicken, um Details zu sehen.</p>
+  <div class="card pm-note">
+    <p><strong>Demonstration meiner Power&nbsp;BI‑, JIRA‑ und Projektmanagement‑Fähigkeiten:</strong> Ziel dieser Demo ist es, Organisation, Transparenz und Umsetzungsstärke sichtbar zu machen. Um die Visualisierungen aussagekräftig zu gestalten, habe ich teils erweiterte Datensätze verwendet und die entsprechenden Rohdateien stets mitgegeben.</p>
+    <p>Aufgrund der Arbeit auf einem MacBook war eine Live‑Demonstration komplexer DAX‑Ausdrücke in Power&nbsp;BI hier nicht möglich. Meine Kenntnisse in Analyse, Datenaufbereitung und Visualisierung baue ich jedoch kontinuierlich aus und setze sie bereits praktisch ein – für messbaren Fortschritt in realen Projekten.</p>
+  </div>
+</div>
+<div class="pm-ctrls">
+<button aria-label="Zurück" class="btn btn--ghost" id="pm-prev">Zurück</button>
+<button aria-label="Weiter" class="btn" id="pm-next">Weiter</button>
+</div>
+</div>
+</div>
+</section>
+</main>
+<footer class="footer">
+<div class="container footer__inner">
+    © <span id="year"></span> Godswill Adele Loveday · Keine Cookies · Kein Tracking
+  </div>
+<script>document.getElementById('year').textContent=new Date().getFullYear();</script>
+</footer>
+
+<script>
+// Toggle popover on click for touch devices, keep hover behavior via CSS
+document.addEventListener('click', (e)=>{
+  if(e.target.closest('.pm-info__btn')){
+    const wrap = e.target.closest('.pm-info');
+    const open = wrap.classList.toggle('is-open');
+    const btn = wrap.querySelector('.pm-info__btn');
+    btn.setAttribute('aria-expanded', open ? 'true':'false');
+    // Close others
+    document.querySelectorAll('.pm-info').forEach(el=>{
+      if(el!==wrap) el.classList.remove('is-open');
+    });
+  }else if(!e.target.closest('.pm-info__pop')){
+    document.querySelectorAll('.pm-info').forEach(el=> el.classList.remove('is-open'));
+  }
+});
+</script>
+
+</body>
+</html>

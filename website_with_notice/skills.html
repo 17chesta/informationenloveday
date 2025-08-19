@@ -1,0 +1,50 @@
+<!DOCTYPE html><html lang="de"><head><title>Skills – Godswill Adele Loveday</title><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="index_dizer.css">
+<script defer src="main.js"></script></head>
+<body data-page="skills"><header class="topbar">
+  <div class="container topbar__inner">
+    <a class="brand" href="index.html">Godswill Adele Loveday</a>
+    <nav class="nav" id="mainNav">
+      <a class="nav__link" href="index.html">Start</a>
+      <a class="nav__link" href="about.html">Über mich</a>
+      <a class="nav__link" href="skills.html">Skills</a>
+      <a class="nav__link" href="timeline.html">Zeitleiste</a>
+      <a class="nav__link" href="projects.html">Projekte</a>
+      <a class="nav__link" href="projektmanagement.html">Projektmanagement</a>
+      <a class="nav__link" href="contact.html">Kontakt</a>
+    </nav>
+    <button class="mode-toggle" id="modeToggle" title="Dark/Light">🌓</button>
+  </div>
+</header>
+<main class="container"><section class="section"><h1 class="section__title">Skills</h1><p class="hint">Klicke einen Skill an, um mehr Infos zu erhalten.</p><div class="skills-grid" id="skillsGrid"></div></section></main>
+<div class="modal" id="skillModal" aria-hidden="true"><div class="modal__dialog" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+<button class="modal__close" id="modalClose" aria-label="Schließen">×</button>
+<h3 id="modalTitle"></h3><p id="modalDesc" class="lead"></p><p class="meta"><strong>Quelle:</strong> <span id="modalSrc"></span></p>
+</div></div><footer class="footer">
+  <div class="container footer__inner">
+    © <span id="year"></span> Godswill Adele Loveday · Keine Cookies · Kein Tracking
+  </div>
+  <script>document.getElementById('year').textContent=new Date().getFullYear();</script>
+</footer>
+<script>
+const data = [["Projektplanung","Praktikum Projektmanagement (Mentor): Meilensteine, Roadmaps, Stakeholder-Abstimmung.","Mentor Jonas"],
+["Prozessverbesserung","Abläufe analysieren und verschlanken; KPI-gestützt priorisieren.","Mentor Jonas"],
+["Produktentwicklung","Von der Anforderung bis zum MVP: Spezifikation, Feedback & Iteration.","Uni/Projekte"],
+["Back-End-Webentwicklung","Leichte Backends & Integrationen; saubere APIs & Datenmodelle.","Projekte"],
+["REST-API","Rollen, Auth, Endpunkte & Dokumentation.","EmployerConnect"],
+["Künstliche Intelligenz (KI)","Automatisierung, Prompting, KI-Hooks ins Backend.","EmployerConnect / Selbststudium"],
+["KI Automation","Workflows verbinden, wiederkehrende Aufgaben automatisieren.","EmployerConnect"],
+["Digitale Wirtschaft","Wertschöpfung mit Daten & Software.","UDE"],
+["Programmieren","Systematisches Problemlösen.","UDE"],
+["Java","Services/APIs, Uni-Praxis.","UDE"],
+["IT-Projektmanagement","Planung, Steuerung, Reporting; Tools & Kommunikation.","Mentor Jonas / UDE"],
+["SQL","Abfragen, Modellierung & Performance-Grundlagen.","UDE/Projekte"],
+["Gesprächsführung","Klare Kommunikation & Abstimmung im Team.","Projekte"],
+["Teamarbeit","Kooperation & gemeinsame Verantwortung.","Projekte"],
+["Datenanalyse","Aufbereitung & Auswertung von Daten mit Tools.","UDE/Projekte"],
+["Stakeholder-Management","Erwartungen aufnehmen, priorisieren und adressieren; regelmäßige Updates.","Projekte/Praktikum"],
+["Datenanalyse & Reporting","Kennzahlen definieren, Auswertungen erstellen, Entscheidungen fundieren.","Power BI / Uni"]];
+document.getElementById('skillsGrid').innerHTML=data.map(([t,d,s])=>`<button class="skill-card" data-title="${t}" data-desc="${d}" data-src="${s}">${t}</button>`).join('');
+</script>
+</body></html>

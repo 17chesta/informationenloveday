@@ -1,0 +1,268 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>Projekt-Zeitleiste – Roadmap</title>
+  <style>
+    :root{
+      --bg:#0f141a;
+      --ink:#eaf2ff;
+      --muted:#9cb3c9;
+      --axis:#233243;
+      --grid:rgba(255,255,255,.06);
+      --radius:12px;
+      --tooltip-bg: #11161d;
+      --tooltip-ink:#eef3f8;
+    }
+    html,body{height:100%}
+    body{margin:0; background:var(--bg); color:var(--ink); font:15px/1.55 system-ui,-apple-system,Segoe UI,Roboto,Inter,Arial}
+    .wrap{max-width:1100px;margin:8px auto;padding:0 8px}
+
+    .tl{position:relative; overflow:visible; padding:8px 0 0}
+    .axis{position:relative; height:32px; border-bottom:1px solid var(--axis);}
+    .tick{position:absolute; bottom:0; width:1px; background:var(--grid); height:10px;}
+    .tick-label{position:absolute; bottom:12px; transform:translateX(-50%); font-size:12px; color:var(--muted)}
+    .lanes{position:relative; padding-right:28px;}
+
+    .lane{position:relative; height:70px; border-bottom:1px dashed rgba(255,255,255,.05);}
+
+    .bar{
+      position:absolute; top:10px; height:22px; min-width:40px;
+      border-radius:8px;
+      background: linear-gradient(to bottom, rgba(255,255,255,.12), rgba(255,255,255,.06));
+      border:1px solid rgba(255,255,255,.25);
+      box-shadow: 0 3px 12px rgba(0,0,0,.28);
+      cursor:default;
+    }
+
+    .label{
+      position:absolute; top:36px;
+      display:flex; align-items:center; gap:8px;
+      font-size:14px; line-height:1.35; font-weight:600;
+      color:var(--ink);
+      white-space:normal;
+      overflow:hidden; text-overflow:ellipsis;
+      max-width:min(60vw, 520px);
+      padding:2px 8px;
+      background:rgba(0,0,0,.35);
+      border:1px solid rgba(255,255,255,.14);
+      border-radius:8px;
+      text-shadow: 0 1px 1px rgba(0,0,0,.5);
+      cursor:default;
+    }
+    .dot{width:10px; height:10px; border-radius:999px; background:var(--c,#7aa2ff); flex:none; border:1px solid rgba(255,255,255,.35)}
+
+    .legend{display:flex; gap:10px; flex-wrap:wrap; margin:4px 0 6px 0}
+    .legend .chip{display:inline-flex; align-items:center; gap:8px; background:rgba(255,255,255,.04); border:1px solid rgba(255,255,255,.10); padding:.2rem .5rem; border-radius:999px; font-size:12px}
+    .legend .chip .dot{width:10px; height:10px}
+
+    /* Tooltip */
+    .tt{position:fixed; z-index:99; pointer-events:none; transform:translate(-50%,14px);
+      background:var(--tooltip-bg); color:var(--tooltip-ink); border:1px solid rgba(255,255,255,.12);
+      border-radius:10px; padding:10px 12px; max-width:340px; box-shadow:0 14px 40px rgba(0,0,0,.35);
+      font-size:13px; line-height:1.45; display:none;
+    }
+    .tt h4{margin:.1rem 0 .35rem 0; font-size:14px}
+    .tt .meta{color: #c8d2e3; font-size:12px; margin-bottom:.25rem}
+    .tt .desc{opacity:.95}
+
+    @media (max-width: 720px){
+      .axis, .lanes { display:none; }
+      .vlist{ display:grid; gap:10px; margin-top:6px;}
+      .card{ background:rgba(255,255,255,.03); border:1px solid rgba(255,255,255,.08); border-radius:12px; padding:10px;}
+      .card .row{display:flex; gap:8px; align-items:center; flex-wrap:wrap}
+      .card .when{font-size:12px; color:var(--muted)}
+    }
+
+    .sr{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="legend" id="legend" aria-hidden="true"></div>
+    <div id="timeline" class="tl" aria-label="Projekt-Zeitleiste (Roadmap)">
+      <div class="axis" id="axis" role="presentation"></div>
+      <div class="lanes" id="lanes"></div>
+    </div>
+    <div id="vlist" class="vlist" aria-label="Projekt-Zeitleiste (Mobil)"></div>
+  </div>
+  <div id="tt" class="tt" role="tooltip" aria-hidden="true"></div>
+
+<script>
+(function(){
+  // ------- Data (portfolio-style descriptions) -------
+  const items = [
+    { id:1, title:"Initiierung", start:"2025-08-01", end:"2025-08-05", group:"Phase", color:"#2e7d32",
+      desc:"Ziele schärfen, Scope abgrenzen, Stakeholder identifizieren und erste Risiken sammeln. Ergebnis: freigegebener Projektauftrag." },
+    { id:2, title:"Kickoff", start:"2025-08-06", end:"2025-08-06", group:"Meilenstein", color:"#ff7043",
+      desc:"Alle Stakeholder synchronisieren: Rollen, Kommunikationswege und Definition of Done. Basis für effiziente Zusammenarbeit." },
+    { id:3, title:"Backlog & Design", start:"2025-08-05", end:"2025-08-15", group:"Dev", color:"#1976d2",
+      desc:"Epics/Stories strukturieren, Akzeptanzkriterien definieren, UX-Skizzen erstellen. Ergebnis: priorisiertes, umsetzbares Backlog." },
+    { id:4, title:"Implementierung", start:"2025-08-16", end:"2025-09-10", group:"Dev", color:"#1976d2",
+      desc:"MVP entwickeln in kurzen Iterationen, Code-Reviews und Continuous Integration. Fokus: wertstiftende Features zuerst." },
+    { id:5, title:"Tests", start:"2025-09-05", end:"2025-09-18", group:"QA", color:"#8e24aa",
+      desc:"System-, Integrations- und Abnahmetests. Fehler triagieren, Risiken reduzieren und Stabilität für Go-Live herstellen." },
+    { id:6, title:"Go-Live", start:"2025-09-25", end:"2025-09-25", group:"Meilenstein", color:"#ff7043",
+      desc:"Deployment nach Checkliste, Monitoring aktiv, Hypercare-Phase vorbereitet. Erfolgskriterium: Nutzbare Funktionalität ohne Blocker." }
+  ];
+
+  // ------- Helpers -------
+  const parse = s => new Date(s + "T00:00:00");
+  const minDate = new Date(Math.min(...items.map(i=>+parse(i.start))));
+  const maxDate = new Date(Math.max(...items.map(i=>+parse(i.end || i.start))));
+  const pad = 7*24*3600*1000;
+  const t0 = +minDate - pad, t1 = +maxDate + pad, span = t1 - t0;
+
+  const axisEl = document.getElementById("axis");
+  const lanesEl = document.getElementById("lanes");
+  const vlistEl = document.getElementById("vlist");
+  const legendEl = document.getElementById("legend");
+  const tt = document.getElementById("tt");
+
+  // Legend
+  const groups = Array.from(new Map(items.map(i=>[i.group, i.color])).entries());
+  legendEl.innerHTML = groups.map(([g,c])=>`<span class="chip"><span class="dot" style="--c:${c};background:${c}"></span>${g}</span>`).join("");
+
+  const fmtRange = (i)=>{
+    const s = new Date(parse(i.start));
+    const e = new Date(parse(i.end || i.start));
+    const f = d => d.toLocaleDateString('de-DE',{year:'2-digit',month:'2-digit',day:'2-digit'});
+    return s.getTime()===e.getTime() ? f(s) : `${f(s)} – ${f(e)}`;
+  };
+
+  function showTip(x, y, it){
+    tt.innerHTML = `<h4>${it.title}</h4>
+      <div class="meta">${fmtRange(it)} · ${it.group}</div>
+      <div class="desc">${it.desc||""}</div>`;
+    tt.style.left = x + "px";
+    y = Math.min(y, window.innerHeight - 20);
+    tt.style.top = y + "px";
+    tt.style.display = "block";
+    tt.setAttribute("aria-hidden", "false");
+  }
+  function hideTip(){
+    tt.style.display = "none";
+    tt.setAttribute("aria-hidden", "true");
+  }
+
+  function renderDesktop(){
+    axisEl.innerHTML = "";
+    const W = axisEl.clientWidth || axisEl.getBoundingClientRect().width;
+
+    // monthly ticks
+    let d = new Date(t0); d.setDate(1);
+    while(+d <= t1){
+      const x = ((+d - t0)/span) * W;
+      const tick = document.createElement("div");
+      tick.className = "tick"; tick.style.left = (x|0)+"px";
+      const lab = document.createElement("div");
+      lab.className="tick-label"; lab.style.left=(x|0)+"px";
+      lab.textContent = d.toLocaleDateString('de-DE',{month:'short',year:'2-digit'});
+      axisEl.append(tick, lab);
+      d.setMonth(d.getMonth()+1);
+    }
+
+    // lanes
+    lanesEl.innerHTML = "";
+    const lanes = [];
+    const laneRowLastRight = [];
+    const ROW_HEIGHT = 26;
+    const GAP = 6;
+
+    function placeLane(startTs){
+      for(let i=0;i<lanes.length;i++){ if(startTs >= lanes[i]) return i; }
+      lanes.push(0); laneRowLastRight.push([]); return lanes.length-1;
+    }
+    const sorted = [...items].sort((a,b)=> +parse(a.start) - +parse(b.start));
+
+    for(const it of sorted){
+      const s = +parse(it.start);
+      const e = +parse(it.end || it.start) + (it.end ? 0 : 24*3600*1000);
+      const lane = placeLane(s);
+      const row = lanesEl.children[lane] || (()=>{
+        const el = document.createElement("div"); el.className="lane"; lanesEl.appendChild(el); return el;
+      })();
+
+      const left = Math.max(0, ((s - t0)/span)*W);
+      const right = Math.min(W, ((e - t0)/span)*W);
+      const width = Math.max(40, right - left);
+
+      // Bar
+      const bar = document.createElement("div");
+      bar.className = "bar";
+      bar.style.left = left+"px";
+      bar.style.width = width+"px";
+      bar.style.backgroundImage = `linear-gradient(to bottom, ${it.color}55, ${it.color}22)`;
+      bar.style.borderColor = it.color;
+      row.appendChild(bar);
+
+      // Label with stacking
+      const label = document.createElement("div");
+      label.className = "label";
+      label.style.left = Math.max(0, left-4) + "px";
+      label.innerHTML = `<span class="dot" style="background:${it.color}"></span><b>${it.title}</b> <span style="color:var(--muted)">${fmtRange(it)} · ${it.group}</span>`;
+      row.appendChild(label);
+
+      // Tooltips on hover (bar + label)
+      function bindTip(el){
+        el.addEventListener('pointerenter', e=> showTip(e.clientX, e.clientY, it));
+        el.addEventListener('pointermove', e=> showTip(e.clientX, e.clientY, it));
+        el.addEventListener('pointerleave', hideTip);
+      }
+      bindTip(bar); bindTip(label);
+
+      // stacking calculation
+      const labelWidth = Math.max(120, Math.min(520, (label.getBoundingClientRect().width || 200)));
+      const labelLeft = Math.max(0, left-4);
+      let r = 0;
+      const lastRights = laneRowLastRight[lane];
+      while(true){
+        const last = lastRights[r] ?? -Infinity;
+        if(labelLeft >= last + GAP){ break; }
+        r += 1;
+      }
+      lastRights[r] = labelLeft + labelWidth;
+      label.style.top = (36 + r*ROW_HEIGHT) + "px";
+
+      const requiredHeight = 36 + (r+1)*ROW_HEIGHT + 10;
+      const current = parseFloat(getComputedStyle(row).height) || 70;
+      if(requiredHeight > current){
+        row.style.height = requiredHeight + "px";
+      }
+
+      lanes[lane] = e;
+    }
+
+    // Hide tooltip when leaving the component
+    lanesEl.addEventListener('pointerleave', hideTip);
+  }
+
+  function renderMobile(){
+    vlistEl.innerHTML = "";
+    const sorted = [...items].sort((a,b)=> +parse(a.start) - +parse(b.start));
+    for(const it of sorted){
+      const card = document.createElement("div");
+      card.className = "card";
+      card.innerHTML = `
+        <div class="row"><span class="dot" style="background:${it.color}"></span><b>${it.title}</b></div>
+        <div class="when">${fmtRange(it)} · ${it.group}</div>
+        <div>${it.desc||""}</div>
+      `;
+      vlistEl.appendChild(card);
+    }
+  }
+
+  function layout(){
+    const mobile = matchMedia("(max-width:720px)").matches;
+    document.getElementById("timeline").style.display = mobile ? "none" : "block";
+    document.getElementById("vlist").style.display = mobile ? "grid" : "none";
+    if(mobile) renderMobile(); else renderDesktop();
+  }
+  layout();
+  addEventListener("resize", ()=>{ clearTimeout(window.__tl); window.__tl=setTimeout(layout,120); });
+  addEventListener("scroll", ()=>{ if(tt.style.display==='block'){ /* keep shown */ } });
+})();
+</script>
+</body>
+</html>
